@@ -1,0 +1,27 @@
+{
+  "name": "salonpro",
+  "private": true,
+  "version": "1.0.0",
+  "description": "SalonPro - Complete Hair Salon / Barbershop Website + CRM + Admin + Staff Panel + Customer Portal (MERN)",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c yellow,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w server && npm run build -w client",
+    "start": "npm run start -w server",
+    "test": "npm run test -w server",
+    "lint": "npm run lint -w client",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client",
+    "db:dev": "npm run db:dev -w server",
+    "db:seed": "npm run db:seed -w server",
+    "db:setup": "npm run db:setup -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
