@@ -6,7 +6,6 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 import type { PaginationMeta } from "@/types";
-import { getCookie } from "@/lib/utils";
 
 export type ApiList<T> = {
   data: T[];
@@ -50,18 +49,25 @@ const NON_MUTATING = new Set(["get", "head", "options", "GET", "HEAD", "OPTIONS"
 const AUTH_SKIP_PATHS = ["/auth/login", "/auth/refresh", "/auth/register", "/auth/csrf"];
 const AUTH_NO_REDIRECT_PATHS = ["/auth/me"];
 
-function attachCsrf(config: InternalAxiosRequestConfig): void {
+async function attachCsrf(config: InternalAxiosRequestConfig): Promise<void> {
   const method = (config.method ?? "get").toLowerCase();
+
   if (NON_MUTATING.has(method)) return;
-  const token = getCookie("sp_csrf");
-  if (!token) return;
+
+  const response = await axios.get<{ data: { csrfToken: string } }>(
+    `${baseURL}/csrf-token`,
+    { withCredentials: true }
+  );
+
+  const token = response.data.data.csrfToken;
+
   const headers = AxiosHeaders.from(config.headers);
   headers.set("x-csrf-token", token);
   config.headers = headers;
 }
 
-api.interceptors.request.use((config) => {
-  attachCsrf(config);
+api.interceptors.request.use(async (config) => {
+  await attachCsrf(config);
   return config;
 });
 
