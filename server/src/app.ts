@@ -65,7 +65,15 @@ export function createApp(): Express {
   app.get('/api/health', (_req, res) => {
     res.json({ data: { status: 'ok', time: new Date().toISOString(), uptime: process.uptime() } });
   });
+app.get('/api/csrf-token', (_req, res) => {
+  const token = issueCsrfToken(res);
 
+  res.json({
+    data: {
+      csrfToken: token,
+    },
+  });
+});
   app.use('/api', maybe(apiLimiter), apiRouter);
 
   app.use(notFoundHandler);
