@@ -10,8 +10,10 @@ export function issueCsrfToken(res: Response): string {
   const token = crypto.randomBytes(24).toString('hex');
   res.cookie(CSRF_COOKIE, token, {
     httpOnly: false, // must be readable by the SPA client
-    sameSite: 'lax',
-    secure: env().NODE_ENV === 'production',
+    // sameSite: 'lax',
+    // secure: env().NODE_ENV === 'production',
+    sameSite: 'none',
+    secure: true,
     path: '/',
     maxAge: 12 * 60 * 60 * 1000,
   });
