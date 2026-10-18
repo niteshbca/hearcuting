@@ -33,6 +33,7 @@ import { apiGet, apiGetList } from "@/services/api";
 import type { DashboardData, Invoice, PaginationMeta } from "@/types";
 import { personName } from "@/types";
 import { formatCurrency, parseApiError } from "@/lib/utils";
+import { API_BASE } from "@/lib/apiBase";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { usePermission } from "@/hooks/useAuth";
 import { PageHeader } from "@/components/shared/PageHeader";
@@ -65,8 +66,6 @@ const DANGER = "#B3261E";
 const INFO = "#1F5FA8";
 const WARNING = "#9A6B00";
 const PALETTE = [GOLD, INK, SUCCESS, INFO, DANGER, WARNING, "#8B5CF6", "#0EA5E9"];
-
-const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? "/api";
 
 /* ------------------------------- Response types ------------------------------ */
 /* Report endpoints return `{ data, meta }`; `apiGet` unwraps to the inner `data`. */

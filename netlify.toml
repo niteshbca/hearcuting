@@ -5,6 +5,21 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Proxy API + uploads to the backend so the SPA and API are same-origin
+# (cross-site cookies are blocked by browsers -> CSRF_INVALID / UNAUTHORIZED)
+[[redirects]]
+  from = "/api/*"
+  to = "https://hearcuting.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/uploads/*"
+  to = "https://hearcuting.onrender.com/uploads/:splat"
+  status = 200
+  force = true
+
+# SPA fallback (must stay last)
 [[redirects]]
   from = "/*"
   to = "/index.html"

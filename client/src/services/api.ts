@@ -6,6 +6,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 import type { PaginationMeta } from "@/types";
+import { API_BASE } from "@/lib/apiBase";
 
 export type ApiList<T> = {
   data: T[];
@@ -34,7 +35,7 @@ function normalizeDeep(value: unknown): unknown {
   return value;
 }
 
-const baseURL = (import.meta.env.VITE_API_URL as string | undefined) ?? "/api";
+const baseURL = API_BASE;
 
 export const api: AxiosInstance = axios.create({
   baseURL,
